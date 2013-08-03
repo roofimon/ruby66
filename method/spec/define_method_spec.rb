@@ -1,4 +1,4 @@
-require_relative '../method_missing.rb'
+require_relative '../define_method.rb'
 
 describe BookStore do
   # Given
@@ -11,6 +11,10 @@ describe BookStore do
   end
 
   describe '#find_by_author' do
+    it 'should be responded by BookStore instance' do
+      expect(book_store.respond_to? :find_by_author).to be_true
+    end
+
     it 'should return a book writen by a given author' do
       # When
       book = book_store.find_by_author('Matz')
@@ -29,6 +33,10 @@ describe BookStore do
   end
 
   describe '#find_by_title' do
+    it 'should be responded by BookStore instance' do
+      expect(book_store.respond_to? :find_by_title).to be_true
+    end
+
     it 'should return a book that has a given title' do
       # When
       book = book_store.find_by_title('Ruby')
@@ -47,18 +55,9 @@ describe BookStore do
   end
 
   context 'When find by column that does not exist' do
-    it 'should return nil' do
-      # When
+    it 'should invoke method_missing' do
+      book_store.should_receive(:method_missing)
       book = book_store.find_by_content("whatever")
-      # Then
-      expect(book).to be_nil
-    end
-  end
-
-  context 'When invoke a method that does not exist' do
-    it 'should raise NoMethodError' do
-      # When & Then
-      expect{book_store.find}.to raise_error(NoMethodError)
     end
   end
 end
