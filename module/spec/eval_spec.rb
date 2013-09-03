@@ -1,4 +1,4 @@
-require_relative '../class_eval.rb'
+require_relative '../eval.rb'
 
 describe BookStore do
   let!(:book_store) { BookStore.new }
